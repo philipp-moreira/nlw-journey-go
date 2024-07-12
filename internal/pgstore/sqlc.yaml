@@ -1,0 +1,15 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./queries"
+    schema: "./migrations"
+    gen:
+      go:
+        out: "." # local output to generate code
+        package: "pgstore"
+        sql_package: "pgx/v5" # driver
+        overrides: # optional instruction
+          - db_type: "uuid"
+            go_type: 
+              import: "github.com/google/uuid"
+              type: "UUID"
