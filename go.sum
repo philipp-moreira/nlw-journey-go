@@ -59,8 +59,6 @@ github.com/phenpessoa/gutils v0.0.0-20240130030144-d391b9329afd h1:vQJI+K22CnhvT
 github.com/phenpessoa/gutils v0.0.0-20240130030144-d391b9329afd/go.mod h1:UGKE349qaz7dfnzVzCoJkeNM6TuPoqXvbdYEJmov5Qk=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/rocketseat-education/nlw-journey-go v0.0.0-20240709154252-fff52a5cddc4 h1:i9UCGyPrCCzwzzt0nl7vLWm9MTmTk8GL4xadpxCW6yA=
-github.com/rocketseat-education/nlw-journey-go v0.0.0-20240709154252-fff52a5cddc4/go.mod h1:H4aC4AzmhZ8t6XlhVnOTv6s2+QOGnN5Vg7B/RuQp6xI=
 github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU5NdKM8=
 github.com/rogpeppe/go-internal v1.12.0/go.mod h1:E+RYuTGaKKdloAfM02xzb0FW3Paa99yedzYV+kq4uf4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

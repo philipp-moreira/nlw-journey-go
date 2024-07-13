@@ -1,4 +1,15 @@
 services:
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    volumes:
+      - mailpit:/data
+    ports:
+      - 1025:1025
+      - 8025:8025
+    environment:
+      MP_DATABASE: /data/mailpit.db
+
   db:
     container_name: journey_db
     image: "postgres:latest"
@@ -45,4 +56,6 @@ volumes:
   db:
     driver: local
   pgadmin:
+    driver: local
+  mailpit:
     driver: local

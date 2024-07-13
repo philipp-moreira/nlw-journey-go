@@ -1,5 +1,7 @@
 package main
 
-// go:generate migrate --migrations ./internal/pgstore/migrations --config ./internal/pgstore/migrations/tern.conf
+//go:generate goapi-gen --package=spec --out ./internal/api/spec/journey.gen.spec.go ./internal/api/spec/openapi_journey.spec.json
 
-// go:generate sqlc generate -f ./internal/pgstore/sqlc.yaml
+//go:generate tern migrate --migrations ./internal/pgstore/migrations/ --config ./internal/pgstore/migrations/tern.conf
+
+//go:generate sqlc generate -f ./internal/pgstore/sqlc.yaml
