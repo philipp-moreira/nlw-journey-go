@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"journey/cmd/journey/config"
 	"journey/internal/api"
 	"journey/internal/api/spec"
 	"journey/internal/mailer/mailpit"
@@ -45,12 +46,17 @@ func run(ctx context.Context) error {
 	logger = logger.Named("journey_app")
 	defer func() { _ = logger.Sync() }()
 
+	envVariables, err := config.GetEnvironmentVariables()
+	if err != nil {
+		return err
+	}
+
 	pool, err := pgxpool.New(ctx, fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s",
-		os.Getenv("JOURNEY_DATABASE_USER"),
-		os.Getenv("JOURNEY_DATABASE_PASSWORD"),
-		os.Getenv("JOURNEY_DATABASE_HOST"),
-		os.Getenv("JOURNEY_DATABASE_PORT"),
-		os.Getenv("JOURNEY_DATABASE_NAME"),
+		envVariables["JOURNEY_DATABASE_USER"],
+		envVariables["JOURNEY_DATABASE_PASSWORD"],
+		envVariables["JOURNEY_DATABASE_HOST"],
+		envVariables["JOURNEY_DATABASE_PORT"],
+		envVariables["JOURNEY_DATABASE_NAME"],
 	))
 	if err != nil {
 		return err
@@ -73,7 +79,7 @@ func run(ctx context.Context) error {
 	r.Mount("/", spec.Handler(&si))
 
 	srv := &http.Server{
-		Addr:         ":8080",
+		Addr:         fmt.Sprintf(":%s", envVariables["JOURNEY_APP_PORT"]),
 		Handler:      r,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  5 * time.Second,
