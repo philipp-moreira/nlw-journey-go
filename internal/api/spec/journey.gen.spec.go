@@ -23,6 +23,11 @@ import (
 	"github.com/go-chi/render"
 )
 
+// Bad request
+type BadRequest struct {
+	Message string `json:"message"`
+}
+
 // CreateActivityRequest defines model for CreateActivityRequest.
 type CreateActivityRequest struct {
 	OccursAt time.Time `json:"occurs_at" validate:"required"`
@@ -58,11 +63,6 @@ type CreateTripRequest struct {
 // CreateTripResponse defines model for CreateTripResponse.
 type CreateTripResponse struct {
 	TripID string `json:"tripId"`
-}
-
-// Bad request
-type Error struct {
-	Message string `json:"message"`
 }
 
 // GetLinksResponse defines model for GetLinksResponse.
@@ -122,9 +122,24 @@ type GetTripParticipantsResponseArray struct {
 	Name        *string             `json:"name"`
 }
 
+// Internal Server Error request
+type InternalServerErrorRequest struct {
+	Message string `json:"message"`
+}
+
 // InviteParticipantRequest defines model for InviteParticipantRequest.
 type InviteParticipantRequest struct {
 	Email openapi_types.Email `json:"email" validate:"required,email"`
+}
+
+// InviteParticipantResponse defines model for InviteParticipantResponse.
+type InviteParticipantResponse struct {
+	ParticipantID string `json:"participantId"`
+}
+
+// Not Found request
+type NotFoundRequest struct {
+	Message string `json:"message"`
 }
 
 // UpdateTripRequest defines model for UpdateTripRequest.
@@ -230,6 +245,46 @@ func (resp *Response) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.Encode(resp.body)
 }
 
+// GetParticipantsParticipantIDConfirmJSON204Response is a constructor method for a GetParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetParticipantsParticipantIDConfirmJSON204Response(body interface{}) *Response {
+	return &Response{
+		body:        body,
+		Code:        204,
+		contentType: "application/json",
+	}
+}
+
+// GetParticipantsParticipantIDConfirmJSON400Response is a constructor method for a GetParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetParticipantsParticipantIDConfirmJSON400Response(body BadRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetParticipantsParticipantIDConfirmJSON404Response is a constructor method for a GetParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetParticipantsParticipantIDConfirmJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetParticipantsParticipantIDConfirmJSON500Response is a constructor method for a GetParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetParticipantsParticipantIDConfirmJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
 // PatchParticipantsParticipantIDConfirmJSON204Response is a constructor method for a PatchParticipantsParticipantIDConfirm response.
 // A *Response is returned with the configured status code and content type from the spec.
 func PatchParticipantsParticipantIDConfirmJSON204Response(body interface{}) *Response {
@@ -242,10 +297,30 @@ func PatchParticipantsParticipantIDConfirmJSON204Response(body interface{}) *Res
 
 // PatchParticipantsParticipantIDConfirmJSON400Response is a constructor method for a PatchParticipantsParticipantIDConfirm response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PatchParticipantsParticipantIDConfirmJSON400Response(body Error) *Response {
+func PatchParticipantsParticipantIDConfirmJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PatchParticipantsParticipantIDConfirmJSON404Response is a constructor method for a PatchParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchParticipantsParticipantIDConfirmJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PatchParticipantsParticipantIDConfirmJSON500Response is a constructor method for a PatchParticipantsParticipantIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchParticipantsParticipantIDConfirmJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -262,10 +337,20 @@ func PostTripsJSON201Response(body CreateTripResponse) *Response {
 
 // PostTripsJSON400Response is a constructor method for a PostTrips response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PostTripsJSON400Response(body Error) *Response {
+func PostTripsJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsJSON500Response is a constructor method for a PostTrips response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -282,10 +367,30 @@ func GetTripsTripIDJSON200Response(body GetTripDetailsResponse) *Response {
 
 // GetTripsTripIDJSON400Response is a constructor method for a GetTripsTripID response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetTripsTripIDJSON400Response(body Error) *Response {
+func GetTripsTripIDJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDJSON404Response is a constructor method for a GetTripsTripID response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDJSON500Response is a constructor method for a GetTripsTripID response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -302,10 +407,30 @@ func PutTripsTripIDJSON204Response(body interface{}) *Response {
 
 // PutTripsTripIDJSON400Response is a constructor method for a PutTripsTripID response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PutTripsTripIDJSON400Response(body Error) *Response {
+func PutTripsTripIDJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PutTripsTripIDJSON404Response is a constructor method for a PutTripsTripID response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PutTripsTripIDJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PutTripsTripIDJSON500Response is a constructor method for a PutTripsTripID response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PutTripsTripIDJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -322,10 +447,30 @@ func GetTripsTripIDActivitiesJSON200Response(body GetTripActivitiesResponse) *Re
 
 // GetTripsTripIDActivitiesJSON400Response is a constructor method for a GetTripsTripIDActivities response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetTripsTripIDActivitiesJSON400Response(body Error) *Response {
+func GetTripsTripIDActivitiesJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDActivitiesJSON404Response is a constructor method for a GetTripsTripIDActivities response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDActivitiesJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDActivitiesJSON500Response is a constructor method for a GetTripsTripIDActivities response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDActivitiesJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -342,10 +487,30 @@ func PostTripsTripIDActivitiesJSON201Response(body CreateActivityResponse) *Resp
 
 // PostTripsTripIDActivitiesJSON400Response is a constructor method for a PostTripsTripIDActivities response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PostTripsTripIDActivitiesJSON400Response(body Error) *Response {
+func PostTripsTripIDActivitiesJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDActivitiesJSON404Response is a constructor method for a PostTripsTripIDActivities response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDActivitiesJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDActivitiesJSON500Response is a constructor method for a PostTripsTripIDActivities response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDActivitiesJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -362,7 +527,7 @@ func GetTripsTripIDConfirmJSON204Response(body interface{}) *Response {
 
 // GetTripsTripIDConfirmJSON400Response is a constructor method for a GetTripsTripIDConfirm response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetTripsTripIDConfirmJSON400Response(body Error) *Response {
+func GetTripsTripIDConfirmJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
@@ -370,9 +535,69 @@ func GetTripsTripIDConfirmJSON400Response(body Error) *Response {
 	}
 }
 
+// GetTripsTripIDConfirmJSON404Response is a constructor method for a GetTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDConfirmJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDConfirmJSON500Response is a constructor method for a GetTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDConfirmJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
+// PatchTripsTripIDConfirmJSON204Response is a constructor method for a PatchTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchTripsTripIDConfirmJSON204Response(body interface{}) *Response {
+	return &Response{
+		body:        body,
+		Code:        204,
+		contentType: "application/json",
+	}
+}
+
+// PatchTripsTripIDConfirmJSON400Response is a constructor method for a PatchTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchTripsTripIDConfirmJSON400Response(body BadRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PatchTripsTripIDConfirmJSON404Response is a constructor method for a PatchTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchTripsTripIDConfirmJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PatchTripsTripIDConfirmJSON500Response is a constructor method for a PatchTripsTripIDConfirm response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PatchTripsTripIDConfirmJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
 // PostTripsTripIDInvitesJSON201Response is a constructor method for a PostTripsTripIDInvites response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PostTripsTripIDInvitesJSON201Response(body interface{}) *Response {
+func PostTripsTripIDInvitesJSON201Response(body InviteParticipantResponse) *Response {
 	return &Response{
 		body:        body,
 		Code:        201,
@@ -382,10 +607,30 @@ func PostTripsTripIDInvitesJSON201Response(body interface{}) *Response {
 
 // PostTripsTripIDInvitesJSON400Response is a constructor method for a PostTripsTripIDInvites response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PostTripsTripIDInvitesJSON400Response(body Error) *Response {
+func PostTripsTripIDInvitesJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDInvitesJSON404Response is a constructor method for a PostTripsTripIDInvites response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDInvitesJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDInvitesJSON500Response is a constructor method for a PostTripsTripIDInvites response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDInvitesJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -402,10 +647,30 @@ func GetTripsTripIDLinksJSON200Response(body GetLinksResponse) *Response {
 
 // GetTripsTripIDLinksJSON400Response is a constructor method for a GetTripsTripIDLinks response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetTripsTripIDLinksJSON400Response(body Error) *Response {
+func GetTripsTripIDLinksJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDLinksJSON404Response is a constructor method for a GetTripsTripIDLinks response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDLinksJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDLinksJSON500Response is a constructor method for a GetTripsTripIDLinks response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDLinksJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -422,10 +687,30 @@ func PostTripsTripIDLinksJSON201Response(body CreateLinkResponse) *Response {
 
 // PostTripsTripIDLinksJSON400Response is a constructor method for a PostTripsTripIDLinks response.
 // A *Response is returned with the configured status code and content type from the spec.
-func PostTripsTripIDLinksJSON400Response(body Error) *Response {
+func PostTripsTripIDLinksJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDLinksJSON404Response is a constructor method for a PostTripsTripIDLinks response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDLinksJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// PostTripsTripIDLinksJSON500Response is a constructor method for a PostTripsTripIDLinks response.
+// A *Response is returned with the configured status code and content type from the spec.
+func PostTripsTripIDLinksJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
 		contentType: "application/json",
 	}
 }
@@ -442,7 +727,7 @@ func GetTripsTripIDParticipantsJSON200Response(body GetTripParticipantsResponse)
 
 // GetTripsTripIDParticipantsJSON400Response is a constructor method for a GetTripsTripIDParticipants response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetTripsTripIDParticipantsJSON400Response(body Error) *Response {
+func GetTripsTripIDParticipantsJSON400Response(body BadRequest) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
@@ -450,8 +735,31 @@ func GetTripsTripIDParticipantsJSON400Response(body Error) *Response {
 	}
 }
 
+// GetTripsTripIDParticipantsJSON404Response is a constructor method for a GetTripsTripIDParticipants response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDParticipantsJSON404Response(body NotFoundRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        404,
+		contentType: "application/json",
+	}
+}
+
+// GetTripsTripIDParticipantsJSON500Response is a constructor method for a GetTripsTripIDParticipants response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTripsTripIDParticipantsJSON500Response(body InternalServerErrorRequest) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Wraper to confirms a participant on a trip.
+	// (GET /participants/{participantId}/confirm)
+	GetParticipantsParticipantIDConfirm(w http.ResponseWriter, r *http.Request, participantID string) *Response
 	// Confirms a participant on a trip.
 	// (PATCH /participants/{participantId}/confirm)
 	PatchParticipantsParticipantIDConfirm(w http.ResponseWriter, r *http.Request, participantID string) *Response
@@ -470,9 +778,12 @@ type ServerInterface interface {
 	// Create a trip activity.
 	// (POST /trips/{tripId}/activities)
 	PostTripsTripIDActivities(w http.ResponseWriter, r *http.Request, tripID string) *Response
-	// Confirm a trip and send e-mail invitations.
+	// Wrapper to confirm a trip and send e-mail invitations.
 	// (GET /trips/{tripId}/confirm)
 	GetTripsTripIDConfirm(w http.ResponseWriter, r *http.Request, tripID string) *Response
+	// Confirm a trip and send e-mail invitations.
+	// (PATCH /trips/{tripId}/confirm)
+	PatchTripsTripIDConfirm(w http.ResponseWriter, r *http.Request, tripID string) *Response
 	// Invite someone to the trip.
 	// (POST /trips/{tripId}/invites)
 	PostTripsTripIDInvites(w http.ResponseWriter, r *http.Request, tripID string) *Response
@@ -491,6 +802,32 @@ type ServerInterface interface {
 type ServerInterfaceWrapper struct {
 	Handler          ServerInterface
 	ErrorHandlerFunc func(w http.ResponseWriter, r *http.Request, err error)
+}
+
+// GetParticipantsParticipantIDConfirm operation middleware
+func (siw *ServerInterfaceWrapper) GetParticipantsParticipantIDConfirm(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "participantId" -------------
+	var participantID string
+
+	if err := runtime.BindStyledParameter("simple", false, "participantId", chi.URLParam(r, "participantId"), &participantID); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "participantId"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetParticipantsParticipantIDConfirm(w, r, participantID)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
 }
 
 // PatchParticipantsParticipantIDConfirm operation middleware
@@ -655,6 +992,32 @@ func (siw *ServerInterfaceWrapper) GetTripsTripIDConfirm(w http.ResponseWriter, 
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp := siw.Handler.GetTripsTripIDConfirm(w, r, tripID)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// PatchTripsTripIDConfirm operation middleware
+func (siw *ServerInterfaceWrapper) PatchTripsTripIDConfirm(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "tripId" -------------
+	var tripID string
+
+	if err := runtime.BindStyledParameter("simple", false, "tripId", chi.URLParam(r, "tripId"), &tripID); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "tripId"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.PatchTripsTripIDConfirm(w, r, tripID)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -886,6 +1249,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 	}
 
 	r.Route(options.BaseURL, func(r chi.Router) {
+		r.Get("/participants/{participantId}/confirm", wrapper.GetParticipantsParticipantIDConfirm)
 		r.Patch("/participants/{participantId}/confirm", wrapper.PatchParticipantsParticipantIDConfirm)
 		r.Post("/trips", wrapper.PostTrips)
 		r.Get("/trips/{tripId}", wrapper.GetTripsTripID)
@@ -893,6 +1257,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 		r.Get("/trips/{tripId}/activities", wrapper.GetTripsTripIDActivities)
 		r.Post("/trips/{tripId}/activities", wrapper.PostTripsTripIDActivities)
 		r.Get("/trips/{tripId}/confirm", wrapper.GetTripsTripIDConfirm)
+		r.Patch("/trips/{tripId}/confirm", wrapper.PatchTripsTripIDConfirm)
 		r.Post("/trips/{tripId}/invites", wrapper.PostTripsTripIDInvites)
 		r.Get("/trips/{tripId}/links", wrapper.GetTripsTripIDLinks)
 		r.Post("/trips/{tripId}/links", wrapper.PostTripsTripIDLinks)
@@ -922,30 +1287,33 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

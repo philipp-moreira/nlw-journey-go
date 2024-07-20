@@ -22,6 +22,13 @@ SET
 WHERE
     id = $5;
 
+-- name: UpdateTripConfirm :exec
+UPDATE trips
+SET 
+    "is_confirmed" = $1
+WHERE
+    id = $2;
+
 -- name: GetParticipant :one
 SELECT
     "id", "trip_id", "email", "is_confirmed"
@@ -30,12 +37,11 @@ WHERE
     id = $1;
 
 -- name: ConfirmParticipant :exec
-SELECT
-    "id", "trip_id", "email", "is_confirmed"
-FROM participants
+UPDATE participants
+SET
+    "is_confirmed" = $1
 WHERE
-    id = $1;
-
+    id = $2;
 
 -- name: GetParticipants :many
 SELECT

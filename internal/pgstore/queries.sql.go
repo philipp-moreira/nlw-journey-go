@@ -13,15 +13,20 @@ import (
 )
 
 const confirmParticipant = `-- name: ConfirmParticipant :exec
-SELECT
-    "id", "trip_id", "email", "is_confirmed"
-FROM participants
+UPDATE participants
+SET
+    "is_confirmed" = $1
 WHERE
-    id = $1
+    id = $2
 `
 
-func (q *Queries) ConfirmParticipant(ctx context.Context, id uuid.UUID) error {
-	_, err := q.db.Exec(ctx, confirmParticipant, id)
+type ConfirmParticipantParams struct {
+	IsConfirmed bool      `db:"is_confirmed" json:"is_confirmed"`
+	ID          uuid.UUID `db:"id" json:"id"`
+}
+
+func (q *Queries) ConfirmParticipant(ctx context.Context, arg ConfirmParticipantParams) error {
+	_, err := q.db.Exec(ctx, confirmParticipant, arg.IsConfirmed, arg.ID)
 	return err
 }
 
@@ -268,5 +273,23 @@ func (q *Queries) UpdateTrip(ctx context.Context, arg UpdateTripParams) error {
 		arg.IsConfirmed,
 		arg.ID,
 	)
+	return err
+}
+
+const updateTripConfirm = `-- name: UpdateTripConfirm :exec
+UPDATE trips
+SET 
+    "is_confirmed" = $1
+WHERE
+    id = $2
+`
+
+type UpdateTripConfirmParams struct {
+	IsConfirmed bool      `db:"is_confirmed" json:"is_confirmed"`
+	ID          uuid.UUID `db:"id" json:"id"`
+}
+
+func (q *Queries) UpdateTripConfirm(ctx context.Context, arg UpdateTripConfirmParams) error {
+	_, err := q.db.Exec(ctx, updateTripConfirm, arg.IsConfirmed, arg.ID)
 	return err
 }
