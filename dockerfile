@@ -8,12 +8,10 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-WORKDIR /journey/cmd/journey
+WORKDIR /journey/cmd/journey/main
 
-RUN go build -o /journey/bin/journey .
+RUN go build -o /journey/cmd/bin/main .
 
 EXPOSE 8080
-ENTRYPOINT [ "/journey/bin/journey" ]
 
-
-
+ENTRYPOINT [ "/journey/cmd/bin/main" ]
